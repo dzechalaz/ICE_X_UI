@@ -1,9 +1,4 @@
 ########################################################################
-## SPINN DESIGN CODE
-# YOUTUBE: (SPINN TV) https://www.youtube.com/spinnTv
-# WEBSITE: spinndesign.com
-
-########################################################################
 ## IMPORTS
 ########################################################################
 from kivy.lang import Builder
@@ -12,13 +7,7 @@ from kivy.uix.screenmanager import ScreenManager
 from kivymd.app import MDApp
 from kivy.core.window import Window
 
-Window.fullscreen = False
-
-########################################################################
-## SET WINDOW SIZE
-########################################################################
-Window.size = (350, 600)
-# Window.fullscreen = True
+Window.fullscreen = True
 ########################################################################
 ## MAIN CLASS
 ########################################################################
