@@ -34,14 +34,24 @@ class MainApp(MDApp):
     def change_vaso(self):
         screen_manager.current = "sabor_vaso"
 
-    def change_vainilla(self):
-        screen_manager.current = "inicio"
+    def change_cono_vainilla(self):
+        screen_manager.current = "topping_cono_vainilla"
 
-    def change_megamix(self):
-        screen_manager.current = "inicio"
+    def change_cono_megamix(self):
+        screen_manager.current = "topping_cono_megamix"
 
-    def change_chocolate(self):
+    def change_cono_chocolate(self):
         screen_manager.current = "topping_cono_chocolate"
+
+    def change_vaso_vainilla(self):
+        screen_manager.current = "topping_vaso_vainilla"
+
+    def change_vaso_megamix(self):
+        screen_manager.current = "topping_vaso_megamix"
+
+    def change_vaso_chocolate(self):
+        screen_manager.current = "topping_vaso_chocolate"
+    
 
 		
 
@@ -56,7 +66,14 @@ class MainApp(MDApp):
         screen_manager.add_widget(Builder.load_file("screens/recipiente.kv"))
         screen_manager.add_widget(Builder.load_file("screens/sabor_vaso.kv"))
         screen_manager.add_widget(Builder.load_file("screens/sabor_cono.kv"))
-        screen_manager.add_widget(Builder.load_file("screens/topping_cono_chocolate.kv"))        
+        screen_manager.add_widget(Builder.load_file("screens/topping_cono_chocolate.kv"))
+        screen_manager.add_widget(Builder.load_file("screens/topping_cono_megamix.kv"))
+        screen_manager.add_widget(Builder.load_file("screens/topping_cono_vainilla.kv"))
+        screen_manager.add_widget(Builder.load_file("screens/topping_cono_chocolate.kv"))
+        screen_manager.add_widget(Builder.load_file("screens/topping_cono_megamix.kv"))
+        screen_manager.add_widget(Builder.load_file("screens/topping_cono_vainilla.kv"))
+
+                
         # Return screen manager
         return screen_manager
     ########################################################################
