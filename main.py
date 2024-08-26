@@ -40,10 +40,20 @@ class MainApp(MDApp):
         screen_manager.current = "recipiente"
 
     def change_cono(self):
-        screen_manager.current = "inicio"
+        screen_manager.current = "sabor_cono"
 
     def change_vaso(self):
+        screen_manager.current = "sabor_vaso"
+
+    def change_vainilla(self):
         screen_manager.current = "inicio"
+
+    def change_megamix(self):
+        screen_manager.current = "inicio"
+
+    def change_chocolate(self):
+        screen_manager.current = "inicio"
+
 		
 
     def build(self):
@@ -53,9 +63,10 @@ class MainApp(MDApp):
         self.theme_cls.primary_palette='BlueGray'
         
         # Load kv screen files to builder
-        screen_manager.add_widget(Builder.load_file("inicio.kv"))
-        screen_manager.add_widget(Builder.load_file("recipiente.kv"))
-        
+        screen_manager.add_widget(Builder.load_file("screens/inicio.kv"))
+        screen_manager.add_widget(Builder.load_file("screens/recipiente.kv"))
+        screen_manager.add_widget(Builder.load_file("screens/sabor_vaso.kv"))
+        screen_manager.add_widget(Builder.load_file("screens/sabor_cono.kv"))
         
         # Return screen manager
         return screen_manager
