@@ -69,9 +69,9 @@ class MainApp(MDApp):
         screen_manager.add_widget(Builder.load_file("screens/topping_cono_chocolate.kv"))
         screen_manager.add_widget(Builder.load_file("screens/topping_cono_megamix.kv"))
         screen_manager.add_widget(Builder.load_file("screens/topping_cono_vainilla.kv"))
-        screen_manager.add_widget(Builder.load_file("screens/topping_cono_chocolate.kv"))
-        screen_manager.add_widget(Builder.load_file("screens/topping_cono_megamix.kv"))
-        screen_manager.add_widget(Builder.load_file("screens/topping_cono_vainilla.kv"))
+        screen_manager.add_widget(Builder.load_file("screens/topping_vaso_chocolate.kv"))
+        screen_manager.add_widget(Builder.load_file("screens/topping_vaso_megamix.kv"))
+        screen_manager.add_widget(Builder.load_file("screens/topping_vaso_vainilla.kv"))
 
                 
         # Return screen manager
