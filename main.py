@@ -41,7 +41,7 @@ class MainApp(MDApp):
         screen_manager.current = "inicio"
 
     def change_chocolate(self):
-        screen_manager.current = "inicio"
+        screen_manager.current = "topping_cono_chocolate"
 
 		
 
@@ -56,7 +56,7 @@ class MainApp(MDApp):
         screen_manager.add_widget(Builder.load_file("screens/recipiente.kv"))
         screen_manager.add_widget(Builder.load_file("screens/sabor_vaso.kv"))
         screen_manager.add_widget(Builder.load_file("screens/sabor_cono.kv"))
-        
+        screen_manager.add_widget(Builder.load_file("screens/topping_cono_chocolate.kv"))        
         # Return screen manager
         return screen_manager
     ########################################################################
