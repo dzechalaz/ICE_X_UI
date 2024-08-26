@@ -1,2 +1,2 @@
 # ICE_X_UI
-![Texto alternativo](LogoX.jpg)
+![Texto alternativo](assets/LogoX.jpg)
