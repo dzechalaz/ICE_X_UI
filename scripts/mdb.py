@@ -105,7 +105,7 @@ def poll_coin_acceptor(ser):
 
 # Función para analizar los datos del buffer y actualizar el estado del monedero
 def parse_mdb_buffer():
-    print(f"Parsing buffer: {g.mdb_com_buffer}")
+    #print(f"Parsing buffer: {g.mdb_com_buffer}")
     while True:
         if len(g.mdb_com_buffer) == 0:
             return
@@ -130,11 +130,11 @@ def parse_mdb_buffer():
         elif g.mdb_com_buffer.startswith("30") and len(g.mdb_com_buffer) >= 10:
             print("Billete aceptado")
             if g.mdb_com_buffer[8:10] == chr(0x0D) + chr(0x0A):
-                coin_type = g.mdb_com_buffer[3]
+                coin_type = g.mdb_com_buffer[3] + g.mdb_com_buffer[4]
                 print(f"Bill type detected: {coin_type}")
                 if coin_type in BILLETERA_VALORES:
-                    g.total_money += MONEDA_VALORES[coin_type]
-                    print(f"Billete aceptada: {MONEDA_VALORES[coin_type]} peso(s)")
+                    g.total_money += BILLETERA_VALORES[coin_type]
+                    print(f"Billete aceptada: {BILLETERA_VALORES[coin_type]} peso(s)")
                     print(f"Total dinero en el billetero: {g.total_money} pesos")
                 else:
                     print(f"BILL type {coin_type} no reconocido en BILLETE_VALORES.")
