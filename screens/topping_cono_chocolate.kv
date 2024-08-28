@@ -7,7 +7,7 @@ MDScreen:
         self.ids.progress.anim_delay = 0
         self.ids.progress.anim_reset = True # Llama a una función para reiniciar el GIF
         self.ids.progress.source = ''
-        self.ids.progress.source = 'assets/gif_topconoping_cono_chocolate.gif'
+        self.ids.progress.source = 'assets/gif_topping_cono_chocolate.gif'
     
     MDBoxLayout:
         # Add float layout
@@ -28,7 +28,7 @@ MDScreen:
                 size_hint: None, None
                 size: root.width * 0.2, root.height * 0.45
                 pos: root.width * 0.11, root.height * 0.2
-                on_press: app.change_vainilla()
+                on_press: app.cancelar_venta()
 
             Button:
                 background_color: 1, 1, 1, 0
@@ -36,7 +36,7 @@ MDScreen:
                 size_hint: None, None
                 size: root.width * 0.2, root.height * 0.45
                 pos: root.width * 0.4, root.height * 0.2
-                on_press: app.change_megamix()
+                on_press: app.cancelar_venta()
 
             Button:
                 background_color: 1, 1, 1, 0
@@ -44,7 +44,7 @@ MDScreen:
                 size_hint: None, None
                 size: root.width * 0.2, root.height * 0.45
                 pos: root.width * 0.7, root.height * 0.2
-                on_press:  app.change_chocolate()  
+                on_press:  app.cancelar_venta()  
 
             Button:
                 background_color: 1, 1, 1, 0

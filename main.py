@@ -2,10 +2,17 @@
 ## IMPORTS
 ########################################################################
 from kivy.lang import Builder
+from typing import Union, NoReturn
 from kivy.clock import Clock
 from kivy.uix.screenmanager import ScreenManager
 from kivymd.app import MDApp
 from kivy.core.window import Window
+
+import scripts.mdb as mdb # Importar el archivo mdb.py
+from scripts.mdb import g
+
+import sys
+import threading
 
 Window.fullscreen = True
 ########################################################################
@@ -52,8 +59,9 @@ class MainApp(MDApp):
     def change_vaso_chocolate(self):
         screen_manager.current = "topping_vaso_chocolate"
     
-
-		
+    ###################################################################
+    ##### En esta funcion se crean las pantallas que se van ausar #####
+    ###################################################################
 
     def build(self):
         # Set App Title
@@ -82,7 +90,10 @@ class MainApp(MDApp):
     #def on_start(self):
         # Delay time for splash screen before transitioning to main screen
         #Clock.schedule_once(self.change_screen1, 5) # Delay for 10 seconds
-        
+    def on_start(self) -> NoReturn:
+        #Clock.schedule_once(self.generate_application_screens, 1)
+        #Clock.schedule_once(self.schedule_update_total_money_label, 2)  # Programa la actualización después de un pequeño retraso
+        Clock.schedule_once(self.setup_mdb, 2) 
     ########################################################################
     ## This function changes the current screen to main screen
     ########################################################################
@@ -90,6 +101,41 @@ class MainApp(MDApp):
         screen_manager.current = "inicio"
     def change_screen2(self, dt):    
         screen_manager.current = "inicio"
+
+    def update_total_money_label(self, dt):
+        try:
+            total_money_label = self.root.get_screen('main screen').ids.total_money_label
+            total_money_label.text = f"Total dinero: {g.total_money} pesos"
+            amount_to_charge_label = self.root.get_screen('main screen').ids.amount_to_charge_label
+            precio_helado=self.precio_pedido[0].replace("$","")
+            precio_topping=self.precio_pedido[1].replace("$","")
+            precio_helado = float(precio_helado)
+            precio_topping =float(precio_topping)
+            amount_to_charge_label.text = f"Monto a cobrar: {precio_helado + precio_topping - g.total_money} pesos" 
+        except KeyError:
+            print("No se pudo encontrar el ID total_money_label")
+        except Exception as e:
+            print(f"Error al actualizar el label: {e}")
+######################################################################################################
+## Logica de mdb
+######################################################################################################
+    def setup_mdb(self, dt=None):
+        port = '/dev/ttyUSB0'  # Cambia esto según tu sistema operativo
+        ser = mdb.connect_to_mdb_rs232(port)
+        if ser:
+            mdb.enable_coin_acceptor(ser)
+            mdb.enable_bill_acceptor(ser)
+            print("Iniciando hilo de lectura del puerto MDB")
+            mdb_thread = threading.Thread(target=mdb.mdb_read_and_parse)
+            mdb_thread.daemon = True
+            mdb_thread.start()
+    
+    def cancelar_venta(self):
+        print("Cancelando venta")
+        mdb.mdb_coin_change(g.total_money)
+        mdb.mdb_bill_reject()
+        g.total_money = 0  # Llama a la función para cancelar la venta cashless
+        self.root.current = 'recipiente'
 ########################################################################
 ## RUN APP
 ########################################################################      
