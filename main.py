@@ -135,12 +135,12 @@ class MainApp(MDApp):
         try:
             total_money_label = self.root.get_screen('orden_lista_vaso_chocolate').ids.total_money_label
             total_money_label.text = f"${g.total_money}"
-            amount_to_charge_label = self.root.get_screen('orden_lista_vaso_chocolate').ids.amount_to_charge_label
-            precio_helado=self.precio_pedido[0].replace("$","")
-            precio_topping=self.precio_pedido[1].replace("$","")
-            precio_helado = float(precio_helado)
-            precio_topping =float(precio_topping)
-            amount_to_charge_label.text = f"Monto a cobrar: {precio_helado + precio_topping - g.total_money} pesos" 
+            # amount_to_charge_label = self.root.get_screen('orden_lista_vaso_chocolate').ids.amount_to_charge_label
+            # precio_helado=self.precio_pedido[0].replace("$","")
+            # precio_topping=self.precio_pedido[1].replace("$","")
+            # precio_helado = float(precio_helado)
+            # precio_topping =float(precio_topping)
+            # amount_to_charge_label.text = f"Monto a cobrar: {precio_helado + precio_topping - g.total_money} pesos" 
         except KeyError:
             print("No se pudo encontrar el ID total_money_label")
         except Exception as e:
