@@ -12,7 +12,8 @@ MONEDA_VALORES = {
 BILLETERA_VALORES = {
     '90': 20,   # 52 representa 20 peso
     '91': 50,   # 53 representa 50 pesos
-    '92': 100,   # 54 representa 100 pesos
+    '92': 100,
+    '09': 1     # 54 representa 100 pesos
 }
 
 # Configuración global y funciones auxiliares
@@ -21,7 +22,8 @@ class GlobalConfig:
         self.coin_alternative_payout = True  # Configuración según sea necesario
         self.coin_scaling_factor = .5         # Ajustar según sea necesario
         self.coin_timeout = .5
-        self.total_money = 0  # Agregamos un total de dinero aquí
+        self.total_money_aux= 0
+        self.total_money = 0   # Agregamos un total de dinero aquí
         self.previous_state = None  # Para guardar el estado anterior del monedero
         self.mdb_com_buffer = ""  # Buffer serial del puerto serial al cual se conecta el dispositivo MDB
         self.mdb_status = 255  # No hay mensaje MDB
@@ -105,7 +107,7 @@ def poll_coin_acceptor(ser):
 
 # Función para analizar los datos del buffer y actualizar el estado del monedero
 def parse_mdb_buffer():
-    #print(f"Parsing buffer: {g.mdb_com_buffer}")
+    print(f"Parsing buffer: {g.mdb_com_buffer}")
     while True:
         if len(g.mdb_com_buffer) == 0:
             return
@@ -134,10 +136,18 @@ def parse_mdb_buffer():
                 print(f"Bill type detected: {coin_type}")
                 if coin_type in BILLETERA_VALORES:
                     g.total_money += BILLETERA_VALORES[coin_type]
+                    if g.total_money_aux == g.total_money and BILLETERA_VALORES[coin_type] == 0:
+                    
+                        mdb_bill_reject()    
+                        print('regresar')
+                    
+                    g.total_money_aux = g.total_money
                     print(f"Billete aceptada: {BILLETERA_VALORES[coin_type]} peso(s)")
                     print(f"Total dinero en el billetero: {g.total_money} pesos")
+
                 else:
                     print(f"BILL type {coin_type} no reconocido en BILLETE_VALORES.")
+                    mdb_bill_reject()
                 g.mdb_com_buffer = g.mdb_com_buffer[10:]
             else:
                 break

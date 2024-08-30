@@ -14,7 +14,7 @@ from scripts.mdb import g
 import sys
 import threading
 
-Window.fullscreen = True
+Window.fullscreen = False
 ########################################################################
 ## MAIN CLASS
 ########################################################################
@@ -73,7 +73,7 @@ class MainApp(MDApp):
         self.theme_cls.primary_palette='BlueGray'
         
         # Load kv screen files to builder
-        screen_manager.add_widget(Builder.load_file("screens/orden_lista_vaso_chocolate.kv"))
+        
         screen_manager.add_widget(Builder.load_file("screens/inicio.kv"))
         screen_manager.add_widget(Builder.load_file("screens/recipiente.kv"))
         screen_manager.add_widget(Builder.load_file("screens/sabor_vaso.kv"))
@@ -84,6 +84,7 @@ class MainApp(MDApp):
         screen_manager.add_widget(Builder.load_file("screens/topping_vaso_chocolate.kv"))
         screen_manager.add_widget(Builder.load_file("screens/topping_vaso_megamix.kv"))
         screen_manager.add_widget(Builder.load_file("screens/topping_vaso_vainilla.kv"))
+        screen_manager.add_widget(Builder.load_file("screens/orden_lista_vaso_chocolate.kv"))
                 
         # Return screen manager
         return screen_manager
@@ -96,7 +97,7 @@ class MainApp(MDApp):
     def on_start(self) -> NoReturn:
         #Clock.schedule_once(self.generate_application_screens, 1)
         #Clock.schedule_once(self.schedule_update_total_money_label, 2)  # Programa la actualización después de un pequeño retraso
-        Clock.schedule_once(self.setup_mdb, 2)
+        # Clock.schedule_once(self.setup_mdb, 2)
         Clock.schedule_once(self.schedule_update_total_money_label, 2)  # Programa la actualización después de un pequeño retraso
 
     ########################################################################
