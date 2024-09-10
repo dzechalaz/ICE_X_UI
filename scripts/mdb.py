@@ -230,6 +230,22 @@ def enable_bill_acceptor(ser):
     print(f"Respuesta recibida: {response.hex()}")
     return response  
 
+# MDB bill validator DISABLE
+def mdb_bill_disable():
+    _ltmp_string=[0x34,0x00,0x00,0x00,0x00]
+    _ltmp_string.append(mdb_add_crc(_ltmp_string))
+    print("Message to device")
+    mdb_hex_dump(_ltmp_string)
+    response = mdb_send_command(_ltmp_string,g.bill_timeout,40)
+    return response 
+
+# MDB bill validator stacker
+def mdb_bill_stacker():
+    _ltmp_string=[0x36,0x36]
+    print("Message to device")
+    mdb_hex_dump(_ltmp_string)
+    response = mdb_send_command(_ltmp_string,g.bill_timeout,40)
+    return response 
 
 def mdb_bill_reject():
     enable_command=bytes([0x35,0x00,0x35])

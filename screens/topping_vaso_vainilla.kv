@@ -5,10 +5,12 @@ MDScreen:
     # Start the progress bar animation when the screen is active
 
     on_enter: 
-        self.ids.progress.anim_delay = 0
-        self.ids.progress.anim_reset = True # Llama a una función para reiniciar el GIF
-        self.ids.progress.source = ''
-        self.ids.progress.source = 'assets/gif_topping_vaso_vainilla.gif'
+        self.ids.gif.anim_delay = 0
+        gif._coreimage.anim_reset(True)
+        app.idle_on()
+    on_leave:   
+
+        app.idle_off()
     
     MDBoxLayout:
         # Add float layout
@@ -17,7 +19,7 @@ MDScreen:
             Image:
                 source: 'assets/gif_topping_vaso_vainilla.gif'   # Ruta de tu imagen
                 pos: self.pos
-                id: progress
+                id: gif
                 size: root.width * 1, root.height * 1
                 anim_delay: -1
                 anim_loop: 1

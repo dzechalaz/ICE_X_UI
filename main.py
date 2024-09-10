@@ -4,9 +4,14 @@
 from kivy.lang import Builder
 from typing import Union, NoReturn
 from kivy.clock import Clock
-from kivy.uix.screenmanager import ScreenManager
-from kivymd.app import MDApp
+from kivy.uix.screenmanager import ScreenManager, Screen
+from kivymd.tools.hotreload.app import MDApp
 from kivy.core.window import Window
+from kivy.animation import Animation
+from kivy.uix.image import Image
+from kivy.core.image import Image as CoreImage
+
+import os
 
 import scripts.mdb as mdb # Importar el archivo mdb.py
 from scripts.mdb import g
@@ -14,11 +19,16 @@ from scripts.mdb import g
 import sys
 import threading
 
+import time
+
 Window.fullscreen = False
+
 ########################################################################
 ## MAIN CLASS
 ########################################################################
 class MainApp(MDApp):
+    
+
     # Global screen manager variable
     global screen_manager
     screen_manager = ScreenManager()
@@ -85,7 +95,7 @@ class MainApp(MDApp):
         screen_manager.add_widget(Builder.load_file("screens/topping_vaso_megamix.kv"))
         screen_manager.add_widget(Builder.load_file("screens/topping_vaso_vainilla.kv"))
         screen_manager.add_widget(Builder.load_file("screens/orden_lista_vaso_chocolate.kv"))
-                
+        # self.install_idle(timeout=30)    
         # Return screen manager
         return screen_manager
     ########################################################################
@@ -103,13 +113,11 @@ class MainApp(MDApp):
     ########################################################################
     ## This function changes the current screen to main screen
     ########################################################################
-    def change_screen1(self, dt):    
+    def on_idle(self, *args):
         screen_manager.current = "inicio"
-    def change_screen2(self, dt):    
-        screen_manager.current = "inicio"
-######################################################################################################
-## Logica de mdb
-######################################################################################################
+    ######################################################################################################
+    ## Logica de mdb
+    ######################################################################################################
     def setup_mdb(self, dt=None):
         port = '/dev/ttyUSB0'  # Cambia esto según tu sistema operativo
         ser = mdb.connect_to_mdb_rs232(port)
@@ -141,11 +149,38 @@ class MainApp(MDApp):
             # precio_topping=self.precio_pedido[1].replace("$","")
             # precio_helado = float(precio_helado)
             # precio_topping =float(precio_topping)
-            # amount_to_charge_label.text = f"Monto a cobrar: {precio_helado + precio_topping - g.total_money} pesos" 
+            # amount_to_charge_label.text = f"Monto a cobrar: {precio_helado + precio_topping - g.total_money} pesos"
+            print("intento") 
         except KeyError:
             print("No se pudo encontrar el ID total_money_label")
         except Exception as e:
             print(f"Error al actualizar el label: {e}")
+    ######################################################################################################
+    ## Animaciones
+    ######################################################################################################
+
+    def total_money_label(self, widget,name_screen):
+        total_money_label = self.root.get_screen(name_screen).ids.total_money_label
+        total_money_label.opacity = 0
+        amount_to_charge_label = self.root.get_screen(name_screen).ids.amount_to_charge_label
+        amount_to_charge_label.opacity = 0
+        anim = Animation(opacity=0, duration=2.5)
+        anim += Animation(opacity=1, duration=1.5)
+        anim.start(widget)
+
+    def idle_off(self, *args):
+        # cancel the timer
+        if self.root.current != 'inicio' and self.root.current != 'orden_lista_vaso_chocolate':
+            self.timer.cancel()
+            self.timer = None
+        print('on_leave')
+
+    def idle_on(self, *args):
+        # start the timer for 30 seconds
+        self.timer = Clock.schedule_once(self.on_idle, 30)
+        print('on_enter')
+
+
 
 ########################################################################
 ## RUN APP
