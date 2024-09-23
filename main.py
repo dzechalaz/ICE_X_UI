@@ -8,8 +8,6 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivymd.tools.hotreload.app import MDApp
 from kivy.core.window import Window
 from kivy.animation import Animation
-from kivy.uix.image import Image
-from kivy.core.image import Image as CoreImage
 
 import os
 
