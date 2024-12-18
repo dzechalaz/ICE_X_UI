@@ -6,8 +6,8 @@ MDScreen:
 
     on_enter: 
 
-        self.ids.gif.anim_delay = 0
-        gif._coreimage.anim_reset(True)
+        #self.ids.gif.anim_delay = 0
+        #gif._coreimage.anim_reset(True)
         app.idle_on()
     on_leave:   
 
@@ -18,7 +18,7 @@ MDScreen:
         MDFloatLayout:
             # Add Gif image
             Image:
-                source: 'assets/gif_topping_cono_megamix.gif'   # Ruta de tu imagen
+                source: 'assets/gif_topping_cono_megamix.png'   # Ruta de tu imagen
                 pos: self.pos
                 id: gif
                 size: root.width * 1, root.height * 1
