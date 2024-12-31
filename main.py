@@ -13,13 +13,16 @@ import os
 
 import scripts.mdb as mdb # Importar el archivo mdb.py
 from scripts.mdb import g
-
+from kivy.config import Config
 import sys
 import threading
 
 import time
 
-Window.fullscreen = False
+Window.fullscreen = True
+
+Config.set('graphics', 'multisamples', '0')  # Desactiva multisampling
+Config.set('graphics', 'maxfps', '30') 
 
 ########################################################################
 ## MAIN CLASS
@@ -93,7 +96,7 @@ class MainApp(MDApp):
         screen_manager.add_widget(Builder.load_file("screens/topping_vaso_megamix.kv"))
         screen_manager.add_widget(Builder.load_file("screens/topping_vaso_vainilla.kv"))
         screen_manager.add_widget(Builder.load_file("screens/orden_lista_vaso_chocolate.kv"))
-        # self.install_idle(timeout=30)    
+        #self.install_idle(timeout=30)    
         # Return screen manager
         return screen_manager
     ########################################################################
@@ -177,8 +180,6 @@ class MainApp(MDApp):
         # start the timer for 30 seconds
         self.timer = Clock.schedule_once(self.on_idle, 30)
         print('on_enter')
-
-
 
 ########################################################################
 ## RUN APP
