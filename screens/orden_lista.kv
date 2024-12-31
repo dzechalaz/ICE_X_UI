@@ -1,14 +1,14 @@
 #:kivy 2.0.0
 MDScreen:
     # Set sc screen name
-    name: "orden_lista_vaso_chocolate"
+    name: "orden_lista"
     # Start the progress bar animation when the screen is active
 
     on_enter: 
         #app.idle_on()
         #app.setup_mdb()
-        #app.total_money_label(total_money_label,'orden_lista_vaso_chocolate')
-        #app.total_money_label(amount_to_charge_label,'orden_lista_vaso_chocolate')
+        #app.total_money_label(total_money_label,'orden_lista')
+        #app.total_money_label(amount_to_charge_label,'orden_lista')
     on_leave:   
         app.idle_off()
     
@@ -17,7 +17,7 @@ MDScreen:
         MDFloatLayout:
             # Add Gif image
             Image:
-                source: 'assets/Armx_Ícono_1.png'   # Ruta de tu imagen
+                source: 'assets/gif_orden_lista.png'   # Ruta de tu imagen
                 pos: self.pos
                 id: gif
                 size: root.width * 1, root.height * 1

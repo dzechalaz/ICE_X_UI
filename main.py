@@ -19,7 +19,7 @@ import threading
 
 import time
 
-Window.fullscreen = True
+Window.fullscreen = False
 
 Config.set('graphics', 'multisamples', '0')  # Desactiva multisampling
 Config.set('graphics', 'maxfps', '30') 
@@ -29,7 +29,8 @@ Config.set('graphics', 'maxfps', '30')
 ########################################################################
 class MainApp(MDApp):
     
-
+   
+    
     # Global screen manager variable
     global screen_manager
     screen_manager = ScreenManager()
@@ -70,8 +71,8 @@ class MainApp(MDApp):
     def change_vaso_chocolate(self):
         screen_manager.current = "topping_vaso_chocolate"
     
-    def change_orden_lista_vaso_chocolate(self):
-        screen_manager.current = "orden_lista_vaso_chocolate"
+    def change_orden_lista(self):
+        screen_manager.current = "orden_lista"
     
     ###################################################################
     ##### En esta funcion se crean las pantallas que se van ausar #####
@@ -95,7 +96,7 @@ class MainApp(MDApp):
         screen_manager.add_widget(Builder.load_file("screens/topping_vaso_chocolate.kv"))
         screen_manager.add_widget(Builder.load_file("screens/topping_vaso_megamix.kv"))
         screen_manager.add_widget(Builder.load_file("screens/topping_vaso_vainilla.kv"))
-        screen_manager.add_widget(Builder.load_file("screens/orden_lista_vaso_chocolate.kv"))
+        screen_manager.add_widget(Builder.load_file("screens/orden_lista.kv"))
         #self.install_idle(timeout=30)    
         # Return screen manager
         return screen_manager
@@ -105,16 +106,20 @@ class MainApp(MDApp):
     #def on_start(self):
         # Delay time for splash screen before transitioning to main screen
         #Clock.schedule_once(self.change_screen1, 5) # Delay for 10 seconds
-    def on_start(self) -> NoReturn:
+    #def on_start(self) -> NoReturn:
         #Clock.schedule_once(self.generate_application_screens, 1)
         #Clock.schedule_once(self.schedule_update_total_money_label, 2)  # Programa la actualización después de un pequeño retraso
         # Clock.schedule_once(self.setup_mdb, 2)
-        Clock.schedule_once(self.schedule_update_total_money_label, 2)  # Programa la actualización después de un pequeño retraso
+        #Clock.schedule_once(self.schedule_update_total_money_label, 2)  # Programa la actualización después de un pequeño retraso
 
     ########################################################################
     ## This function changes the current screen to main screen
     ########################################################################
     def on_idle(self, *args):
+        Clock.schedule_once(self.switch_to_inicio)
+
+    def switch_to_inicio(self, dt):
+        # Cambia a la pantalla 'screen2'
         screen_manager.current = "inicio"
     ######################################################################################################
     ## Logica de mdb
@@ -143,7 +148,7 @@ class MainApp(MDApp):
 
     def update_total_money_label(self, dt):
         try:
-            total_money_label = self.root.get_screen('orden_lista_vaso_chocolate').ids.total_money_label
+            total_money_label = self.root.get_screen('orden_lista').ids.total_money_label
             total_money_label.text = f"${g.total_money}"
             # amount_to_charge_label = self.root.get_screen('orden_lista_vaso_chocolate').ids.amount_to_charge_label
             # precio_helado=self.precio_pedido[0].replace("$","")
@@ -169,17 +174,22 @@ class MainApp(MDApp):
         anim += Animation(opacity=1, duration=1.5)
         anim.start(widget)
 
-    def idle_off(self, *args):
-        # cancel the timer
-        if self.root.current != 'inicio' and self.root.current != 'orden_lista_vaso_chocolate':
-            self.timer.cancel()
-            self.timer = None
-        print('on_leave')
+
 
     def idle_on(self, *args):
         # start the timer for 30 seconds
-        self.timer = Clock.schedule_once(self.on_idle, 30)
+        self.timer = threading.Timer(30, self.on_idle)
+        self.timer.start()
         print('on_enter')
+
+    def idle_off(self, *args):
+        # cancel the timer
+        if (self.timer and isinstance(self.timer, threading.Timer)) and self.root.current == 'inicio' or self.root.current == 'orden_lista':
+            self.timer.cancel()
+        else:
+            print("El temporizador no est� activo o no es v�lido.")
+
+        print('on_leave')
 
 ########################################################################
 ## RUN APP
